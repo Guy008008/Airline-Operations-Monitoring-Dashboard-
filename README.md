@@ -45,7 +45,7 @@ CREATE TABLE flights (
     status TEXT,
     flight_type TEXT,
     technical_stop_flag TEXT,
-    technical_stp_note TEXT,
+    technical_stop_note TEXT,
     connection_time INTEGER
 );
 ```
