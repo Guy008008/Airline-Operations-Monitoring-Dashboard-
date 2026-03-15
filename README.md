@@ -44,7 +44,8 @@ CREATE TABLE flights (
     delay_minutes INTEGER,
     status TEXT,
     flight_type TEXT,
-    technical_stop TEXT,
+    technical_stop_flag TEXT,
+    technical_stp_note TEXT,
     connection_time INTEGER
 );
 ```
