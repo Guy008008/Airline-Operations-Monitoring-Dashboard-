@@ -34,7 +34,7 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     // location of SQLite database file
-    private static final String DB_URL = "jdbc:sqlite:data/airline.db";
+    private static final String DB_URL = "jdbc:sqlite:data/airline_dashboard.db";
 
     /**
      * Creates and returns a database connection.
