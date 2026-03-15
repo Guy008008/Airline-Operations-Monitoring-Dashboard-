@@ -4,7 +4,7 @@
  * Course: CMSC 495 – Computer Science Capstone
  * Project: Airline Operations Monitoring Dashboard
  *
- * File: FilterService.java
+ * File: Main.java
  *
  * Team Members:
  *   Ruth Mathewos
@@ -19,32 +19,49 @@
  * Last Revised: 2026-03-16
  *
  * Description:
- * Provides filtering functionality for flight data used by the
- * Airline Operations Monitoring Dashboard. This service allows
- * filtering of flights based on origin airport.
+ * Entry point for the Airline Operations Monitoring Dashboard
+ * application. This class initializes the database connection,
+ * creates backend service objects, and launches the dashboard UI.
  *
  * ================================================================
  */
 
-package airline.service;
+package airline;
 
-import airline.model.Flight;
-import java.util.List;
-import java.util.stream.Collectors;
+import airline.dao.FlightDAO;
+import airline.db.DatabaseConnection;
+import airline.service.FilterService;
+import airline.service.StatsService;
+import airline.ui.DashboardUI;
 
-public class FilterService {
+import java.sql.Connection;
 
-    /**
-     * Filters flights by origin airport code.
-     *
-     * @param flights List of flights retrieved from the database
-     * @param origin Airport code used to filter flights
-     * @return List of flights departing from the specified origin
-     */
-    public List<Flight> filterByOrigin(List<Flight> flights, String origin) {
-        return flights.stream()
-                .filter(f -> f.getOriginAirport().equalsIgnoreCase(origin))
-                .collect(Collectors.toList());
+public class Main {
+
+    public static void main(String[] args) {
+
+        // just wiring up the app startup here
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+
+            FlightDAO flightDAO = new FlightDAO(connection);
+            FilterService filterService = new FilterService();
+            StatsService statsService = new StatsService();
+
+            // initialize dashboard UI
+            // NOTE: assumes DashboardUI provides a constructor that accepts
+            // FlightDAO, FilterService, and StatsService objects. This allows
+            // the UI layer to access flight data, filtering logic, and statistics.
+            DashboardUI dashboardUI = new DashboardUI(flightDAO, filterService, statsService);
+
+            // launch the user interface
+            dashboardUI.launch();
+
+            System.out.println("Airline Operations Monitoring Dashboard started successfully.");
+
+        } catch (Exception e) {
+            System.out.println("Application failed to start.");
+            e.printStackTrace();
+        }
     }
-
 }
