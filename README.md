@@ -128,7 +128,7 @@ The repository is organized into the following directories:
 
 **data/**
 
-└─ airline.db # SQLite database file
+└─ airline_dashboard.db # SQLite database file
 
 **docs/**
 
