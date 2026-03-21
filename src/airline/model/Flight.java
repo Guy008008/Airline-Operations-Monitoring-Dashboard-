@@ -1,3 +1,28 @@
+/*
+ * ================================================================
+ * University: University of Maryland Global Campus (UMGC)
+ * Course: CMSC 495 – Computer Science Capstone
+ * Project: Airline Operations Monitoring Dashboard
+ *
+ * File: Flight.java
+ *
+ * Team Members:
+ *   Ruth Mathewos
+ *   Will Vernigor
+ *   Afsana Abdul
+ *   Robby Allen
+ *   Casey Leonard
+ *
+ * Author: Asfana Abdul
+ *
+ * Created: 
+ * Last Revised: 
+ *
+ * Description:
+ *             
+ * ================================================================
+ */
+
 package airline.model;
 
 public class Flight {

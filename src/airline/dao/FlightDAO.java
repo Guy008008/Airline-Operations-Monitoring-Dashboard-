@@ -121,8 +121,11 @@ public class FlightDAO {
                 resultSet.getInt("delay_minutes"),
                 resultSet.getString("status"),
                 resultSet.getString("flight_type"),
-                resultSet.getString("technical_stop"),
-                resultSet.getInt("connection_time")
+                resultSet.getString("technical_stop_flag"),
+                resultSet.getString("technical_stop_note"),
+                resultSet.getObject("connection_time") != null
+                    ? resultSet.getInt("connection_time")
+                    : null
         );
     }
 }
