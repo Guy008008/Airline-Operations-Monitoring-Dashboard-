@@ -39,5 +39,3 @@ build/
 Thumbs.db
 
 # Database
-*.db
-data/*.db
