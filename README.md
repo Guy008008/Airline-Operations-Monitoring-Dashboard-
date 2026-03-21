@@ -153,7 +153,7 @@ git clone https://github.com/Guy008008/Airline-Operations-Monitoring-Dashboard-
 4. Ensure the SQLite database file exists in:
 
 
-data/airline.db
+data/airline_dashboard.db
 
 
 5. Open the project in your preferred Java IDE (IntelliJ, Eclipse, NetBeans, etc.).
