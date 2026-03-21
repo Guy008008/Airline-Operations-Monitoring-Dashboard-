@@ -39,5 +39,4 @@ build/
 Thumbs.db
 
 # Database
-*.db
-data/*.db
+# airline_dashboard.db needs this
