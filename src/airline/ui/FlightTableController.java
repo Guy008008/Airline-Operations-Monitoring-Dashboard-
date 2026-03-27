@@ -16,7 +16,7 @@
  * Author: Ruth Mathewos
  *
  * Created: 2026-03-17
- * Last Revised: 2026-03-21
+ * Last Revised: 2026-03-27
  *
  * Description: The FlightTableController class handles data loading, filtering,
  *              and updates for the dashboard. It manages the flight table, statistics, 
@@ -35,12 +35,24 @@ import javafx.collections.*;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.scene.control.TextArea;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import java.util.Map;
+import javafx.scene.shape.Line;
+import javafx.scene.paint.Color;
 
 
 public class FlightTableController {
@@ -50,9 +62,10 @@ public class FlightTableController {
     private ComboBox<String> statusFilter;
     private ComboBox<String> airportFilter;
     private ComboBox<String> routeFilter;
-    private Label statsLabel;
+    private TextArea statsLabel;
     private Label lastUpdatedLabel; 
     private PieChart chart;
+    private BarChart<String, Number> barChart;
     private ImageView cityImage; 
     private Label destinationLabel; 
 
@@ -63,9 +76,10 @@ public class FlightTableController {
                                  ComboBox<String> statusFilter,
                                  ComboBox<String> airportFilter,
                                  ComboBox<String> routeFilter,
-                                 Label statsLabel,
+                                 TextArea statsLabel,
                                  Label lastUpdatedLabel,
                                  PieChart chart,
+                                 BarChart<String, Number> barChart,
                                  ImageView cityImage,
                                  Label destinationLabel) {
 
@@ -77,14 +91,18 @@ public class FlightTableController {
         this.statsLabel = statsLabel;
         this.lastUpdatedLabel = lastUpdatedLabel;
         this.chart = chart;
+        this.barChart = barChart;
         this.cityImage = cityImage;
         this.destinationLabel = destinationLabel;
-
+        
+        statsLabel.setMaxWidth(Double.MAX_VALUE);
+        statsLabel.setWrapText(true);
+        statsLabel.setPrefHeight(220);
+        
         setupColumns();
         loadData();
         setupListeners();
         setupRowClick();
-
         updateAll(masterData);
     }
 
@@ -98,10 +116,48 @@ public class FlightTableController {
         table.getColumns().add(createCol("Airline", "airline"));
         table.getColumns().add(createCol("Origin", "originAirport"));
         table.getColumns().add(createCol("Destination", "destinationAirport"));
+        table.getColumns().add(createCol("Baggage", "baggageAllowance"));
+        
+        TableColumn<Flight, String> seatCol = new TableColumn<>("Seat");
+        seatCol.setCellValueFactory(new PropertyValueFactory<>("seatType"));
+
+        seatCol.setCellFactory(column -> new TableCell<Flight, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+
+                    switch (item.toLowerCase()) {
+                        case "business":
+                            setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+                            break;
+                        case "economy":
+                            setStyle("-fx-text-fill: blue;");
+                            break;
+                        case "first":
+                            setStyle("-fx-text-fill: purple; -fx-font-weight: bold;");
+                            break;
+                        default:
+                            setStyle("");
+                    }
+                }
+            }
+        });
+
+        table.getColumns().add(seatCol);
+        
+        table.getColumns().add(createCol("Meal", "mealIncluded"));
+
        
 
         TableColumn<Flight, String> departureCol = createCol("🛫 Departure", "departureTime");
         TableColumn<Flight, String> arrivalCol = createCol("🛬 Arrival", "arrivalTime");
+        
 
         table.getColumns().add(departureCol);
         table.getColumns().add(arrivalCol);
@@ -256,7 +312,7 @@ public class FlightTableController {
 
         updateStats(data);
         updateChart(data);
-        
+        updateBarChart(data);
         lastUpdatedLabel.setText(
             "Updated at " + java.time.LocalTime.now().withNano(0)
         );    
@@ -285,14 +341,25 @@ public class FlightTableController {
       long layover = data.stream()
               .filter(f -> f.getFlightType().equalsIgnoreCase("Layover"))
               .count();
+      
+      double avgDelay = data.stream()
+          .mapToInt(Flight::getDelayMinutes)
+          .average()
+          .orElse(0);
+          
+      double onTimePercent = (onTime * 100.0) / total;
 
+          
       statsLabel.setText(
-              "Flights: " + total + "\n" +
-              "On Time: " + onTime + "\n" +
-              "Delayed: " + delayed + "\n" +
-              "Cancelled: " + cancelled + "\n" +
-              "Non-stop: " + nonStop + "\n" +
-              "Layover: " + layover
+          "📊 FLIGHT SUMMARY\n\n" +
+          "Flights: " + total + "\n" +
+          "On-Time: " + (int)onTimePercent + "%\n" +
+          "Avg Delay: " + (int)avgDelay + " min\n" +
+          "On-Time: " + onTime + "\n" +
+          "Delayed: " + delayed + "\n" +
+          "Cancelled: " + cancelled + "\n" +
+          "Non-stop: " + nonStop + "\n" +
+          "Layover: " + layover + "\n\n"    
       );
     }
 
@@ -303,10 +370,15 @@ public class FlightTableController {
 
         chart.getData().clear();
 
-        PieChart.Data onTimeData = new PieChart.Data("On Time", onTime);
-        PieChart.Data delayedData = new PieChart.Data("Delayed", delayed);
-        PieChart.Data cancelledData = new PieChart.Data("Cancelled", cancelled);
+        long total = onTime + delayed + cancelled;
+        PieChart.Data onTimeData = new PieChart.Data(
+            "On Time (" + (onTime * 100 / total) + "%)", onTime);
+        PieChart.Data delayedData = new PieChart.Data(
+            "Delayed (" + (delayed * 100 / total) + "%)", delayed);
+        PieChart.Data cancelledData = new PieChart.Data(
+            "Cancelled (" + (cancelled * 100 / total) + "%)", cancelled);
 
+        
         chart.getData().addAll(onTimeData, delayedData, cancelledData);
 
         chart.getData().forEach(d -> {
@@ -316,6 +388,29 @@ public class FlightTableController {
                 case "Cancelled" -> d.getNode().setStyle("-fx-pie-color: #e74c3c;");
             }
         });
+    }
+    
+    private void updateBarChart(ObservableList<Flight> data) {
+
+      barChart.getData().clear();
+
+      Map<String, Integer> delays = data.stream()
+          .collect(Collectors.groupingBy(
+              Flight::getAirline,
+              Collectors.summingInt(Flight::getDelayMinutes)
+          ));
+
+      XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+      delays.entrySet().stream()
+      .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+      .limit(6)
+      .forEach(entry ->
+          series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()))
+      );
+
+
+      barChart.getData().add(series);
     }
 
     
@@ -373,40 +468,87 @@ public class FlightTableController {
 
 
     private void setupRowClick() {
-        table.setRowFactory(tv -> {
-            TableRow<Flight> row = new TableRow<>();
+      table.setRowFactory(tv -> {
+          TableRow<Flight> row = new TableRow<>();
+          Tooltip tooltip = new Tooltip();
 
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getClickCount() == 2) {
-                    Flight f = row.getItem();
-                    updateCityImage(f.getDestinationAirport());
-                    destinationLabel.setText(
-                        "Destination: " + f.getDestinationAirport() +
-                        " (" + getCityName(f.getDestinationAirport()) + ")"
-                    );
+          row.itemProperty().addListener((obs, oldItem, newItem) -> {
+              if (newItem == null) {
+                  row.setTooltip(null);
+                  row.setStyle("");
+              } else {
+                  tooltip.setText(
+                      "Flight: " + newItem.getFlightNumber() + "\n" +
+                      "Airline: " + newItem.getAirline() + "\n" +
+                      "Route: " + newItem.getOriginAirport() + " → " + newItem.getDestinationAirport() + "\n" +
+                      "Baggage: " + newItem.getBaggageAllowance() + "\n" +
+                      "Seat: " + newItem.getSeatType() + "\n" +
+                      "Meal: " + (newItem.getMealIncluded().equalsIgnoreCase("Yes") ? "Meal Included" : "No Meal")
+                  );
+                  row.setTooltip(tooltip);
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Flight Details");
-                    alert.setHeaderText("Flight " + f.getFlightNumber());
+                  if ("Delayed".equalsIgnoreCase(newItem.getStatus())) {
+                      row.setStyle("-fx-background-color: #fff3cd;");
+                  } else {
+                      row.setStyle("");
+                  }
+              }
+          });
 
-                    alert.setContentText(
-                            "Airline: " + f.getAirline() + "\n" +
-                                    "Route: " + f.getOriginAirport() + " → " + f.getDestinationAirport() + "\n" +
-                                    "Departure: " + f.getDepartureTime() + "\n" +
-                                    "Arrival: " + f.getArrivalTime() + "\n" +
-                                    "Status: " + f.getStatus() + "\n" +
-                                    "Delay: " + f.getDelayMinutes() + " mins\n" +
-                                    "Type: " + f.getFlightType() + "\n" +
-                                    "Technical Stop: " + f.getTechnicalStopFlag()
-                    );
+          row.setOnMouseEntered(e -> {
+              if (!row.isEmpty()) {
+                  row.setStyle("-fx-background-color: #eef6ff;");
+              }
+          });
 
-                    alert.showAndWait();
-                }
-                
-                
-            });
+          row.setOnMouseExited(e -> {
+              if (row.getItem() != null &&
+                  "Delayed".equalsIgnoreCase(row.getItem().getStatus())) {
+                  row.setStyle("-fx-background-color: #fff3cd;");
+              } else {
+                  row.setStyle("");
+              }
+          });
 
-            return row;
-        });
-    }
+          row.setOnMouseClicked(event -> {
+              if (!row.isEmpty() && event.getClickCount() == 2) {
+                  Flight f = row.getItem();
+
+                  updateCityImage(f.getDestinationAirport());
+                  destinationLabel.setText(
+                      "Destination: " + f.getDestinationAirport() +
+                      " (" + getCityName(f.getDestinationAirport()) + ")"
+                  );
+
+                  Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                  alert.setTitle("✈ Flight Details");
+                  alert.setHeaderText("Flight " + f.getFlightNumber());
+                  alert.getDialogPane().setPrefWidth(400);
+                  
+                  Label details = new Label(
+                      "Airline: " + f.getAirline() + "\n" +
+                      "Route: " + f.getOriginAirport() + " → " + f.getDestinationAirport() + "\n" +
+                      "Departure: " + f.getDepartureTime() + "\n" +
+                      "Arrival: " + f.getArrivalTime() + "\n" +
+                      "Status: " + f.getStatus() + "\n" +
+                      "Delay: " + f.getDelayMinutes() + " mins\n" +
+                      "Type: " + f.getFlightType() + "\n" +
+                      "Technical Stop: " + f.getTechnicalStopFlag() + "\n" +
+                      "Baggage: " + f.getBaggageAllowance() + "\n" +
+                      "Seat: " + f.getSeatType() + "\n" +
+                      "Meal: " + (f.getMealIncluded().equalsIgnoreCase("Yes") ? "Meal Included" : "No Meal")
+                  );
+
+                  VBox content = new VBox(10, details);
+                  content.setPadding(new Insets(10));
+
+                  alert.getDialogPane().setContent(content);
+                  alert.showAndWait();
+              }
+          });
+
+          return row;
+      });
+  }
+
 }
