@@ -14,9 +14,10 @@
  *   Casey Leonard
  *
  * Author: Casey Leonard
+ * Updataed: Ruth Mathewos
  *
  * Created: 2026-03-16
- * Last Revised: 2026-03-16
+ * Last Revised: 2026-03-23
  *
  * Description:
  * Provides data access methods for retrieving flight information
@@ -125,7 +126,10 @@ public class FlightDAO {
                 resultSet.getString("technical_stop_note"),
                 resultSet.getObject("connection_time") != null
                     ? resultSet.getInt("connection_time")
-                    : null
+                    : null,
+                resultSet.getString("baggage_allowance"),
+                resultSet.getString("seat_type"),
+                resultSet.getString("meal_included")
         );
     }
 }
