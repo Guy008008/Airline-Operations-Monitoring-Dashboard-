@@ -1,5 +1,4 @@
 # Airline Operations Monitoring Dashboard
-
 **Course:** CMSC 495 – Computer Science Capstone  
 **University:** University of Maryland Global Campus (UMGC)  
 **Section:** 7382  
@@ -47,6 +46,9 @@ CREATE TABLE flights (
     technical_stop_flag TEXT,
     technical_stop_note TEXT,
     connection_time INTEGER
+    baggage_allowance TEXT,
+    seat_type TEXT,
+    meal_included TEXT
 );
 ```
 ## Reporting Issues and Tracking Tasks
@@ -86,8 +88,12 @@ The current backend DAO expects the following fields from the Flight model:
 - delay_minutes  
 - status  
 - flight_type  
-- technical_stop  
-- connection_time  
+- technical_stop_flag
+- techincal_stop_route
+- connection_time
+- baggage_allowance
+- seat_type
+- meal_included
 
 We should confirm that `Flight.java` matches this schema so DAO mapping works correctly.
 
@@ -153,7 +159,7 @@ git clone https://github.com/Guy008008/Airline-Operations-Monitoring-Dashboard-
 4. Ensure the SQLite database file exists in:
 
 
-data/airline.db
+    data/airline_dashboard.db
 
 
 5. Open the project in your preferred Java IDE (IntelliJ, Eclipse, NetBeans, etc.).
@@ -186,3 +192,15 @@ Team members should coordinate changes that affect shared components such as:
 - Data models  
 - Service layer interfaces  
 - UI integration points
+
+
+Dependecies and Libraries:
+This project requries the following libraries to be added to the Java Build Path:
+- SQLite JDBC Driver (for example, sqlite-jdbc-3.x.xjar): Reqired for database connectivity. 
+- JUnit 5: Required for running the backend test suite. 
+- JavaFX SDK 17+: Required for the GUI components.
+
+
+
+
+

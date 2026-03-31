@@ -27,6 +27,9 @@ replay_pid*
 .idea/
 .vscode/
 *.iml
+.project
+.classpath
+.settings/
 
 # Build folders
 bin/
@@ -39,3 +42,10 @@ build/
 Thumbs.db
 
 # Database
+# (keep shared DB tracked)
+
+# local dependency folder
+lib/
+
+# optional local env
+.env
