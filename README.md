@@ -196,9 +196,9 @@ Team members should coordinate changes that affect shared components such as:
 
 Dependecies and Libraries:
 This project requries the following libraries to be added to the Java Build Path:
-    * SQLite JDBC Driver (for example, sqlite-jdbc-3.x.xjar): Reqired for database connectivity. 
-    * JUnit 5: Required for running the backend test suite. 
-    * JavaFX SDK 17+: Required for the GUI components.
+- SQLite JDBC Driver (for example, sqlite-jdbc-3.x.xjar): Reqired for database connectivity. 
+- JUnit 5: Required for running the backend test suite. 
+- JavaFX SDK 17+: Required for the GUI components.
 
 
 
