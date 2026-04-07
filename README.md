@@ -1,5 +1,10 @@
 # Airline Operations Monitoring Dashboard
 
+## Dashboard Preview 
+
+<img width="1745" height="1101" alt="Screenshot" src="https://github.com/user-attachments/assets/a8f4d3f3-9939-44bc-9ebd-5df9ea52afb2" />
+
+
 **Course:** CMSC 495 – Computer Science Capstone  
 **University:** University of Maryland Global Campus (UMGC)  
 **Section:** 7382  
@@ -186,3 +191,6 @@ Team members should coordinate changes that affect shared components such as:
 - Data models  
 - Service layer interfaces  
 - UI integration points
+
+
+

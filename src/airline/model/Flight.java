@@ -15,10 +15,13 @@
  *
  * Author: Asfana Abdul
  *
- * Created: 
- * Last Revised: 
+ * Created: 2026-03-16
+ * Last Revised: 2026-03-27
  *
- * Description:
+ * Description: Represents a flight and its associated details in the airline system.
+ *              Includes flight information, route, schedule, status, and passenger services
+ *              such as baggage allowance, seat type, and meal availability.
+
  *             
  * ================================================================
  */
@@ -41,13 +44,17 @@ public class Flight {
     private String technicalStopFlag;
     private String technicalStopNote;
     private Integer connectionTime;
+    private String baggageAllowance;
+    private String seatType;
+    private String mealIncluded;
 
     public Flight(int flightId, String flightNumber, String airline,
                   String originAirport, String destinationAirport,
                   String connectionAirport, String departureTime,
                   String arrivalTime, int delayMinutes, String status,
                   String flightType, String technicalStopFlag,
-                  String technicalStopNote, Integer connectionTime) {
+                  String technicalStopNote, Integer connectionTime,
+                  String baggageAllowance, String seatType, String mealIncluded) {
 
         this.flightId = flightId;
         this.flightNumber = flightNumber;
@@ -63,6 +70,9 @@ public class Flight {
         this.technicalStopFlag = technicalStopFlag;
         this.technicalStopNote = technicalStopNote;
         this.connectionTime = connectionTime;
+        this.baggageAllowance = baggageAllowance;
+        this.seatType = seatType;
+        this.mealIncluded = mealIncluded;
     }
 
     public int getFlightId() { return flightId; }
@@ -79,4 +89,7 @@ public class Flight {
     public String getTechnicalStopFlag() { return technicalStopFlag; }
     public String getTechnicalStopNote() { return technicalStopNote; }
     public Integer getConnectionTime() { return connectionTime; }
+    public String getBaggageAllowance() { return baggageAllowance; }
+    public String getSeatType() { return seatType; }
+    public String getMealIncluded() {return mealIncluded; }
 }

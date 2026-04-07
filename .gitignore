@@ -1,19 +1,51 @@
-# Compiled files
+# Compiled class file
 *.class
 
-# Build folders
-bin/
-out/
-build/
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
 
 # IDE files
 .idea/
 .vscode/
 *.iml
+.project
+.classpath
+.settings/
+
+# Build folders
+bin/
+out/
+target/
+build/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Database
+# (keep shared DB tracked)
+
+# local dependency folder
+lib/
+
+# optional local env
+.env
