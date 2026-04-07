@@ -1,17 +1,25 @@
 # Airline Operations Monitoring Dashboard
 
-## Dashboard Preview 
+## Dashboard Preview
 
 <img width="1745" height="1101" alt="Screenshot" src="https://github.com/user-attachments/assets/a8f4d3f3-9939-44bc-9ebd-5df9ea52afb2" />
-
 
 **Course:** CMSC 495 – Computer Science Capstone  
 **University:** University of Maryland Global Campus (UMGC)  
 **Section:** 7382  
 
+---
+
 ## Project Overview
 
-The Airline Operations Monitoring Dashboard is a Java-based application designed to monitor airline flight operations. The system allows users to view and analyze flight information such as routes, delays, cancellations, and operational statistics. The application uses Java for the application logic and SQLite for persistent data storage.
+The Airline Operations Monitoring Dashboard is a Java-based desktop application designed to monitor airline flight operations. The system allows users to view and analyze flight information such as routes, delays, cancellations, baggage allowances, seat types, meal availability, and operational statistics.
+
+The application uses:
+- **Java** for application logic  
+- **JavaFX** for the graphical user interface  
+- **SQLite** for persistent data storage  
+
+---
 
 ## Team Members
 
@@ -20,6 +28,8 @@ The Airline Operations Monitoring Dashboard is a Java-based application designed
 - Afsana Abdul  
 - Robby Allen  
 - Casey Leonard  
+
+---
 
 ## Class Responsibilities
 
@@ -34,7 +44,9 @@ The Airline Operations Monitoring Dashboard is a Java-based application designed
 | FilterService.java | Flight filtering logic | Will & Casey |
 | FlightTableController.java | UI table controller | Ruth |
 
-## Baseline Database Schema
+---
+
+## Current Database Schema
 
 ```sql
 CREATE TABLE flights (
@@ -51,7 +63,10 @@ CREATE TABLE flights (
     flight_type TEXT,
     technical_stop_flag TEXT,
     technical_stop_note TEXT,
-    connection_time INTEGER
+    connection_time INTEGER,
+    baggage_allowance TEXT,
+    seat_type TEXT,
+    meal_included TEXT
 );
 ```
 ## Reporting Issues and Tracking Tasks
@@ -191,6 +206,3 @@ Team members should coordinate changes that affect shared components such as:
 - Data models  
 - Service layer interfaces  
 - UI integration points
-
-
-
