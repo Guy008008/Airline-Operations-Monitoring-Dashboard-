@@ -29,14 +29,14 @@
 
 package airline.dao;
 
-import airline.model.Flight;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import airline.model.Flight;
 
 public class FlightDAO {
 

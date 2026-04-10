@@ -27,10 +27,6 @@
 
 package airline.ui;
 
-import airline.dao.FlightDAO;
-import airline.db.DatabaseConnection;
-import airline.model.Flight;
-
 import javafx.collections.*;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
@@ -52,6 +48,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import java.util.Map;
 import javafx.scene.shape.Line;
+import airline.dao.FlightDAO;
+import airline.db.DatabaseConnection;
+import airline.model.Flight;
 import javafx.scene.paint.Color;
 
 

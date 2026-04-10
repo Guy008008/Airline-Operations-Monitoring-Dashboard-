@@ -27,9 +27,9 @@
 
 package airline.service;
 
-import airline.model.Flight;
-
 import java.util.List;
+
+import airline.model.Flight;
 
 public class StatsService {
 

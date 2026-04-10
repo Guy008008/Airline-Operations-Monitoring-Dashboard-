@@ -1,9 +1,11 @@
 
-package airline.test;
+package test.java.test;
+
+import org.junit.jupiter.api.Test;
 
 import airline.model.Flight;
 import airline.service.StatsService;
-import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;

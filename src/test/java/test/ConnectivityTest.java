@@ -1,10 +1,12 @@
-package airline.test;
+package test.java.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import airline.db.DatabaseConnection;
+
 import airline.dao.FlightDAO;
+import airline.db.DatabaseConnection;
 import airline.model.Flight;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

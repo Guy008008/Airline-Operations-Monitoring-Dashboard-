@@ -28,9 +28,10 @@
 
 package airline.service;
 
-import airline.model.Flight;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import airline.model.Flight;
 
 public class FilterService {
 
