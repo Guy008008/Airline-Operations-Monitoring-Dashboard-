@@ -1,5 +1,5 @@
 
-package test.java.test;
+package airline.service;
 
 import org.junit.jupiter.api.Test;
 

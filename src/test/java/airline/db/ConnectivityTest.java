@@ -1,4 +1,4 @@
-package test.java.test;
+package airline.db;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
