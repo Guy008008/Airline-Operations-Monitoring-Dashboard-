@@ -14,7 +14,7 @@
  *   Casey Leonard
  *
  * Author: Casey Leonard
- * Updataed: Ruth Mathewos
+ * Revised: Ruth Mathewos
  *
  * Created: 2026-03-16
  * Last Revised: 2026-03-23
