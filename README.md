@@ -10,10 +10,12 @@
 
 The Airline Operations Monitoring Dashboard is a Java-based desktop application designed to monitor airline flight operations. The system allows users to view and analyze flight information such as routes, delays, cancellations, baggage allowances, seat types, meal availability, and operational statistics.
 
-The application uses:
-- **Java** for application logic  
-- **JavaFX** for the graphical user interface  
-- **SQLite** for persistent data storage  
+ Tech Stack:
+- Language: Java 17 LTS
+- GUI Framework: JavaFX 17 (Hardware Accelerated)
+- Build Tool: Maven (M2E Integration)
+- Database: SQLite 3 with JDBC Driver
+- Testing: JUnit 5
 
 ---
 
@@ -65,6 +67,19 @@ CREATE TABLE flights (
     meal_included TEXT
 );
 ```
+---
+
+**Usage Examples**
+---
+To help users navigate the new dynamic features, follow these operational examples:
+- **Multi-Criteria Filtering:** Enter "DL" in the search bar, select "Delayed" from the Status dropdown, and select "Non-stop" from the Route Type.
+  The table and charts will update in real-time (<100ms) to show specific Delta Airlines operational bottlenecks.
+- **Dynamic Visuals:** Click any row in the flight table. The dashboard will automatically load a city-specific image for the destination airport,
+  providing immediate visual confirmation of the route.
+- **Statistical Analysis:** View the Pie Chart for a breakdown of "On Time" vs "Delayed" percentages, or click "Top Delays" to see a specialized popup
+  of the five flights requiring immediate dispatcher attention.
+
+
 ## Reporting Issues and Tracking Tasks
 
 Team members should use **GitHub Issues** to report bugs, suggest improvements, or track development tasks during the project.
@@ -142,6 +157,8 @@ The repository is organized into the following directories:
 
 └─ ui/ # Dashboard user interface components
 
+├─ test/java/   # JUnit 5 Testing Suites
+
 **data/**
 
 └─ airline_dashboard.db # SQLite database file
@@ -150,39 +167,46 @@ The repository is organized into the following directories:
 
 └─ project documentation # Diagrams, planning documents, etc.
 
+pom.xml # Maven configuration and dependencies
+
 ---
 
 ## Running the Application
 
 To run the Airline Operations Monitoring Dashboard locally:
 
-1. Ensure **Java** is installed on your system.
+1. Ensure **Java 17** and **Maven** are installed on your system.
 
 2. Clone the repository:
 
-
 git clone https://github.com/Guy008008/Airline-Operations-Monitoring-Dashboard-
-
 
 3. Navigate to the project directory.
 
 4. Ensure the SQLite database file exists in:
 
-
 data/airline_dashboard.db
-
 
 5. Open the project in your preferred Java IDE (IntelliJ, Eclipse, NetBeans, etc.).
 
-6. Compile the project.
+6. **Compile the project using Maven:** Run mvn clean install to download dependencies and build the JAR.
 
-7. Run the application starting from:
-
-
-Main.java
+7. **Run the application:** From the command line, run mvn javafx:run or execute Main.java from your IDE.
 
 
 ---
+
+**Setup & Verification Scripts**
+
+To ensure your environment is correctly configured for Phase II, run the following Maven-based verification commands:
+
+- **Verify Java Environment**: java -version
+
+- **Verify dependencies and compile code**: mvn clean compile
+
+- **Execute Automated Test Suite (Validation Script)**: mvn test
+
+**Note:** The mvn test command executes all 5 test suites (Connectivity, Mapping, Filter, Stats, and Robustness) to ensure the system is stable before deployment.
 
 ## Development Workflow
 
