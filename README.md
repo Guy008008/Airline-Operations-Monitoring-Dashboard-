@@ -78,7 +78,7 @@ To help users navigate the new dynamic features, follow these operational exampl
   providing immediate visual confirmation of the route.
 - **Statistical Analysis:** View the Pie Chart for a breakdown of "On Time" vs "Delayed" percentages, or click "Top Delays" to see a specialized popup
   of the five flights requiring immediate dispatcher attention.
-
+- **CSV Export:** Functionality for external data usage
 
 ## Reporting Issues and Tracking Tasks
 
@@ -226,3 +226,7 @@ Team members should coordinate changes that affect shared components such as:
 - Data models  
 - Service layer interfaces  
 - UI integration points
+
+**Troubleshooting**
+- **macOS Compatibility:** If the application crashes in an IDE, run it directly from the terminal using Maven.
+- **Graphics Issues:** Using a software rendering flag can resolve specific JavaFX display errors.
